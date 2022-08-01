@@ -1,9 +1,18 @@
-import { getFeaturedEvents } from '../helpers/api-util';
-import EventList from '../components/events/event-list';
+import Head from "next/head";
+
+import { getFeaturedEvents } from "../helpers/api-util";
+import EventList from "../components/events/event-list";
 
 function HomePage(props) {
   return (
     <div>
+      <Head>
+        <title>Search Events</title>
+        <meta
+          name="description"
+          content="This is the event for everyone can join."
+        />
+      </Head>
       <EventList items={props.events} />
     </div>
   );
@@ -11,13 +20,12 @@ function HomePage(props) {
 
 export async function getStaticProps() {
   const featuredEvents = await getFeaturedEvents();
-
   return {
     props: {
-      events: featuredEvents
+      events: featuredEvents,
     },
-    revalidate: 1800
-  }
+    revalidate: 1800,
+  };
 }
 
 export default HomePage;

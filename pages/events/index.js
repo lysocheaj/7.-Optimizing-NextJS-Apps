@@ -1,36 +1,44 @@
-import { Fragment } from 'react';
-import { useRouter } from 'next/router';
-
-import { getAllEvents } from '../../helpers/api-util';
-import EventList from '../../components/events/event-list';
-import EventsSearch from '../../components/events/events-search';
+import { getAllEvents } from "../../helpers/api-util";
+import EventList from "../../components/events/event-list";
+import { Fragment } from "react";
+import EventsSearch from "../../components/events/events-search";
+import { useRouter } from "next/router";
+import Head from 'next/head';
 
 function AllEventsPage(props) {
-  const router = useRouter();
+  // const events = props.events;
   const { events } = props;
+  const router = useRouter();
 
-  function findEventsHandler(year, month) {
+  function eventsSearchHandler(year, month) {
     const fullPath = `/events/${year}/${month}`;
-
     router.push(fullPath);
   }
 
   return (
-    <Fragment>
-      <EventsSearch onSearch={findEventsHandler} />
-      <EventList items={events} />
-    </Fragment>
+    <div>
+      <Fragment>  
+        <Head>
+          <title>All Events</title>
+          <meta
+            name="description"
+            content="This is the event for everyone can join."
+          />
+        </Head>
+        <EventsSearch onSearch={eventsSearchHandler} />
+        <EventList items={events} />
+      </Fragment>
+    </div>
   );
 }
 
 export async function getStaticProps() {
   const events = await getAllEvents();
-
+  console.log("ddddddd", events);
   return {
     props: {
       events: events,
     },
-    revalidate: 60
   };
 }
 

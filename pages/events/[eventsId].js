@@ -59,9 +59,7 @@ export async function getStaticProps(constext) {
 export async function getStaticPaths() {
   try {
     var event = await getFeaturedEvents();
-
     var paths = event.map((event) => ({ params: { eventsId: event.id } }));
-    console.log("path", JSON.stringify(paths));
   } catch (error) {
     error.message;
   }
